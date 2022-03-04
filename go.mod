@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/glebarez/sqlite v1.3.5
 	github.com/gorilla/mux v1.8.0
-	github.com/milochristiansen/sessionlogger v0.0.0-20220228231408-cd4592d4c713
+	github.com/milochristiansen/sessionlogger v0.0.0-20220304210855-51328689b1b5
 	gorm.io/gorm v1.23.1
 )
 

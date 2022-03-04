@@ -39,8 +39,6 @@ import "gorm.io/gorm"
 // TestBasicFunction... Tests the basic functionality. No detailed testing is done here,
 // just a quick top level sanity check.
 func TestBasicFunction(t *testing.T) {
-	sessionlogger.MustInitalizeLogger("")
-
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
 		t.Fatal(err)
@@ -49,7 +47,7 @@ func TestBasicFunction(t *testing.T) {
 	router := http.NewServeMux()
 
 	rt := autorest.RegisterType(&TestType{}, db)
-	vanilla.CreateEndpoints(rt, autorest.EndpointTypeAll, "/test", router)
+	vanilla.CreateEndpoints(rt, autorest.EndpointTypeAll, "/test", router, &sessionlogger.Config{})
 
 	// Create
 	r, err := http.NewRequest("POST", "/test", strings.NewReader(`{"String": "test", "Int": 5}`))

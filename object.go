@@ -22,8 +22,6 @@ misrepresented as being the original software.
 
 /*
 Package AutoREST is a simplish automatic REST API generator for GORM.
-
-
 */
 package autorest
 

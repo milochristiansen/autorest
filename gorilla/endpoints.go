@@ -43,7 +43,7 @@ import "github.com/milochristiansen/autorest"
 // List: GET without an ID (?page=x&limit=y optional)
 // Update: PUT the object (may be partial) with /<id>
 // Delete: DELETE with /<id>
-func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.EndpointTypes, path string, router *mux.Router) {
+func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.EndpointTypes, path string, router *mux.Router, logc *sessionlogger.Config) {
 	sub := router.PathPrefix(path).Subrouter()
 
 	// POST /
@@ -51,7 +51,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 	// Returns: Nothing.
 	if desiredEndpoints&autorest.EndpointTypeCreate != 0 {
 		sub.HandleFunc("", func(w http.ResponseWriter, r *http.Request) {
-			log := sessionlogger.NewSessionLogger("POST:" + path)
+			log := logc.NewSessionLogger("POST:" + path)
 
 			w.WriteHeader(rt.Create(log.E, json.NewDecoder(r.Body)))
 		}).Methods("POST")
@@ -61,7 +61,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 	// Returns: Full object with given id
 	if desiredEndpoints&autorest.EndpointTypeRead != 0 {
 		sub.HandleFunc("/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
-			log := sessionlogger.NewSessionLogger("GET:" + path + "/<id>")
+			log := logc.NewSessionLogger("GET:" + path + "/<id>")
 
 			id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 0)
 			if err != nil {
@@ -87,7 +87,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 	// Returns: {Page: 0, Limit: 0, Total: 0, Data: {}}
 	if desiredEndpoints&autorest.EndpointTypeList != 0 {
 		sub.HandleFunc("", func(w http.ResponseWriter, r *http.Request) {
-			log := sessionlogger.NewSessionLogger("GET:" + path)
+			log := logc.NewSessionLogger("GET:" + path)
 
 			var err error
 			page, limit := 0, 0
@@ -129,7 +129,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 	// Returns: Nothing.
 	if desiredEndpoints&autorest.EndpointTypeUpdate != 0 {
 		sub.HandleFunc("/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
-			log := sessionlogger.NewSessionLogger("PUT:" + path + "/<id>")
+			log := logc.NewSessionLogger("PUT:" + path + "/<id>")
 
 			id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 0)
 			if err != nil {
@@ -147,7 +147,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 	// Returns: Nothing.
 	if desiredEndpoints&autorest.EndpointTypeDelete != 0 {
 		sub.HandleFunc("/{id:[0-9]+}", func(w http.ResponseWriter, r *http.Request) {
-			log := sessionlogger.NewSessionLogger("DELETE:" + path + "/<id>")
+			log := logc.NewSessionLogger("DELETE:" + path + "/<id>")
 
 			id, err := strconv.ParseUint(mux.Vars(r)["id"], 10, 0)
 			if err != nil {

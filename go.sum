@@ -20,6 +20,12 @@ github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Ky
 github.com/mattn/go-sqlite3 v1.14.10/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
 github.com/milochristiansen/sessionlogger v0.0.0-20220228231408-cd4592d4c713 h1:4F4Y3IicTipDuhfqeA1Cc6utWeSC9oXEZoFLVbxA96s=
 github.com/milochristiansen/sessionlogger v0.0.0-20220228231408-cd4592d4c713/go.mod h1:5y3yzpUrYLjgCeab9Yr5PLCGpaUClKGgyKBLnoSbB4o=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304004720-f31557152191 h1:3/FC/twhLYIYUacfuuRiuYFFF7juDXYO/5r6WIgcN3k=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304004720-f31557152191/go.mod h1:5y3yzpUrYLjgCeab9Yr5PLCGpaUClKGgyKBLnoSbB4o=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304010208-fb7960809480 h1:htNC0BnDom1HoK1eVLvRLsAW712frETnkDH9jBqZR/Q=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304010208-fb7960809480/go.mod h1:5y3yzpUrYLjgCeab9Yr5PLCGpaUClKGgyKBLnoSbB4o=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304210855-51328689b1b5 h1:eCBYGjS/6wTmLn8I6ABALzArhaxZFdWnWfTOMS9wU+U=
+github.com/milochristiansen/sessionlogger v0.0.0-20220304210855-51328689b1b5/go.mod h1:5y3yzpUrYLjgCeab9Yr5PLCGpaUClKGgyKBLnoSbB4o=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 h1:OdAsTTz6OkFY5QxjkYwrChwuRruF69c169dPK26NUlk=

@@ -31,9 +31,9 @@ import "net/http/httptest"
 import "github.com/milochristiansen/autorest"
 import "github.com/milochristiansen/autorest/gorilla"
 
-import "github.com/milochristiansen/sessionlogger"
-
 import "github.com/gorilla/mux"
+
+import "github.com/milochristiansen/sessionlogger"
 
 import "github.com/glebarez/sqlite"
 import "gorm.io/gorm"
@@ -41,8 +41,6 @@ import "gorm.io/gorm"
 // TestBasicFunction... Tests the basic functionality. No detailed testing is done here,
 // just a quick top level sanity check.
 func TestBasicFunction(t *testing.T) {
-	sessionlogger.MustInitalizeLogger("")
-
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
 		t.Fatal(err)
@@ -51,7 +49,7 @@ func TestBasicFunction(t *testing.T) {
 	router := mux.NewRouter()
 
 	rt := autorest.RegisterType(&TestType{}, db)
-	gorilla.CreateEndpoints(rt, autorest.EndpointTypeAll, "/test", router)
+	gorilla.CreateEndpoints(rt, autorest.EndpointTypeAll, "/test", router, &sessionlogger.Config{})
 
 	// Create
 	r, err := http.NewRequest("POST", "/test", strings.NewReader(`{"String": "test", "Int": 5}`))

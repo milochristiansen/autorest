@@ -44,7 +44,7 @@ import "github.com/milochristiansen/autorest"
 //
 // I was too lazy to put the IDs on the path like in the gorilla/mux version, so this version has to make do with variables.
 // The gorilla/mux version is nicer, use that.
-func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.EndpointTypes, path string, router *http.ServeMux) {
+func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.EndpointTypes, path string, router *http.ServeMux, logc *sessionlogger.Config) {
 	router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
@@ -52,7 +52,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 			// Payload: Full object, JSON encoded
 			// Returns: Nothing.
 			if desiredEndpoints&autorest.EndpointTypeCreate != 0 {
-				log := sessionlogger.NewSessionLogger("POST:" + path)
+				log := logc.NewSessionLogger("POST:" + path)
 
 				w.WriteHeader(rt.Create(log.E, json.NewDecoder(r.Body)))
 			}
@@ -64,7 +64,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 				// GET /?page=x&limit=y
 				// Returns: {Page: 0, Limit: 0, Total: 0, Data: {}}
 				if desiredEndpoints&autorest.EndpointTypeList != 0 {
-					log := sessionlogger.NewSessionLogger("GET:" + path)
+					log := logc.NewSessionLogger("GET:" + path)
 
 					var err error
 					page, limit := 0, 0
@@ -105,7 +105,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 			// GET /?id=<id>
 			// Returns: Full object with given id
 			if desiredEndpoints&autorest.EndpointTypeRead != 0 {
-				log := sessionlogger.NewSessionLogger("GET:" + path + "?id=<id>")
+				log := logc.NewSessionLogger("GET:" + path + "?id=<id>")
 
 				id, err := strconv.ParseUint(idS, 10, 0)
 				if err != nil {
@@ -129,7 +129,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 			// Payload: Partial JSON object
 			// Returns: Nothing.
 			if desiredEndpoints&autorest.EndpointTypeUpdate != 0 {
-				log := sessionlogger.NewSessionLogger("PUT:" + path + "?id=<id>")
+				log := logc.NewSessionLogger("PUT:" + path + "?id=<id>")
 
 				id, err := strconv.ParseUint(r.FormValue("id"), 10, 0)
 				if err != nil {
@@ -145,7 +145,7 @@ func CreateEndpoints(rt *autorest.RegisteredType, desiredEndpoints autorest.Endp
 			// DELETE /?id=<id>
 			// Returns: Nothing.
 			if desiredEndpoints&autorest.EndpointTypeDelete != 0 {
-				log := sessionlogger.NewSessionLogger("DELETE:" + path + "?id=<id>")
+				log := logc.NewSessionLogger("DELETE:" + path + "?id=<id>")
 
 				id, err := strconv.ParseUint(r.FormValue("id"), 10, 0)
 				if err != nil {
